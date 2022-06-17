@@ -9,8 +9,9 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config: AFanTiAxiosRequestConfig) => {
-    // 添加了loading动画，不同的请求可以配置全局加载动画
-    // console.log(config.isLoading);
+    // if(config.isLoading) {
+    //   添加加载动画
+    // }
     return config;
   },
   (errors) => {
@@ -27,12 +28,12 @@ export default <T = any>(
   url: string,
   method: Method,
   data?: unknown,
-  isLoading = false
+  config?: AFanTiAxiosRequestConfig // 配置其他，包括 isLoading
 ): AxiosPromise<T> => {
   return service({
     url,
     method,
     [method.toLocaleLowerCase() === "get" ? "params" : "data"]: data,
-    isLoading,
-  } as AFanTiAxiosRequestConfig);
+    ...config,
+  });
 };
