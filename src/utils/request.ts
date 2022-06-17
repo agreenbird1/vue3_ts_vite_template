@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Method, AxiosPromise } from "axios";
+import { AFanTiAxiosRequestConfig } from "../types/axios";
 
 const service = axios.create({
   timeout: 5000,
@@ -7,7 +8,9 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(
-  (config) => {
+  (config: AFanTiAxiosRequestConfig) => {
+    // 添加了loading动画，不同的请求可以配置全局加载动画
+    // console.log(config.isLoading);
     return config;
   },
   (errors) => {
@@ -23,14 +26,13 @@ service.interceptors.response.use((res) => {
 export default <T = any>(
   url: string,
   method: Method,
-  data?: unknown
+  data?: unknown,
+  isLoading = false
 ): AxiosPromise<T> => {
   return service({
     url,
     method,
-    // 统一参数
-    [method.toUpperCase() === "DELETE" || method === "POST"
-      ? "params"
-      : "data"]: data,
-  });
+    [method.toLocaleLowerCase() === "get" ? "params" : "data"]: data,
+    isLoading,
+  } as AFanTiAxiosRequestConfig);
 };

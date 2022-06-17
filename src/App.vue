@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
-<template>HOME</template>
+<template>
+  <router-view></router-view>
+</template>
 
 <style></style>
