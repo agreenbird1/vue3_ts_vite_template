@@ -4,4 +4,8 @@
   <router-view></router-view>
 </template>
 
-<style></style>
+<style lang="less">
+html {
+  font-size: 20px;
+}
+</style>
